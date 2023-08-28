@@ -4,6 +4,11 @@ const dotenv = require("dotenv");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const sequelize = require("./models").sequelize; // Adjust the path to your Sequelize setup
+const exphbs = require("express-handlebars");
+
+// Configure Handlebars view engine
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 dotenv.config();
 
