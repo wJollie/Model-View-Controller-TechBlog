@@ -1,58 +1,57 @@
 const express = require("express");
 const path = require("path");
-const dotenv = require("dotenv");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const sequelize = require("./models").sequelize; // Adjust the path to your Sequelize setup
-const exphbs = require("express-handlebars");
-
-// Configure Handlebars view engine
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
-
-dotenv.config();
+const db = require("./models"); // Adjust the path to your models folder
+const userRoutes = require("./routes/userRoutes"); // Adjust the path to your userRoutes file
+const postRoutes = require("./routes/postRoutes"); // Adjust the path to your postRoutes file
+const commentRoutes = require("./routes/commentRoutes"); // Adjust the path to your commentRoutes file
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Set up view engine (Handlebars)
+const exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
+// Middleware
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// Set up session
 const sessionStore = new SequelizeStore({
-  db: sequelize,
+  db: db.sequelize,
 });
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: sessionStore,
-    cookie: {
-      maxAge: 60 * 60 * 1000, // Session expires after 1 hour
-    },
   })
 );
 
-const isAuthenticated = (req, res, next) => {
-  if (req.session.user) {
-    // User is authenticated, proceed to the next middleware
-    next();
-  } else {
-    // User is not authenticated, redirect to login or show an error page
-    res.redirect("/login"); // You can adjust the route as needed
-  }
-};
+// Routes
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
+app.use("/comments", commentRoutes);
 
-// Your other route handlers and middleware go here
-
-// Define a route handler for the root URL
-app.get("/", (req, res) => {
-  res.send("Welcome to your app!");
+// Error handling
+app.use((req, res, next) => {
+  const error = new Error("Not Found");
+  error.status = 404;
+  next(error);
 });
 
-sequelize.sync().then(() => {
-  app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.render("error", { error });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+db.sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
 });
