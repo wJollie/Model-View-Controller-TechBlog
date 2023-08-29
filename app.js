@@ -6,12 +6,13 @@ const db = require("./models"); // Adjust the path to your models folder
 const userRoutes = require("./routes/userRoutes"); // Adjust the path to your userRoutes file
 const postRoutes = require("./routes/postRoutes"); // Adjust the path to your postRoutes file
 const commentRoutes = require("./routes/commentRoutes"); // Adjust the path to your commentRoutes file
+require("dotenv").config();
 
 const app = express();
 
 // Set up view engine (Handlebars)
-const expHbs = require("express-handlebars");
-const handlebars = expHbs.create({
+const exphbs = require("express-handlebars");
+const handlebars = exphbs.create({
   defaultLayout: "main",
   extname: ".hbs",
   layoutsDir: path.join(__dirname, "views", "layouts"), // Corrected path
@@ -41,6 +42,14 @@ app.use(
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/comments", commentRoutes);
+
+app.get("/", (req, res) => {
+  res.render("home"); // Render the 'home' view using the 'main' layout
+});
+
+app.get("/dashboard", (req, res) => {
+  res.render("dashboard"); // Render the 'dashboard' view using the 'main' layout
+});
 
 // Error handling
 app.use((req, res, next) => {
