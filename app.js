@@ -10,9 +10,15 @@ const commentRoutes = require("./routes/commentRoutes"); // Adjust the path to y
 const app = express();
 
 // Set up view engine (Handlebars)
-const exphbs = require("express-handlebars");
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
+const expHbs = require("express-handlebars");
+const handlebars = expHbs.create({
+  defaultLayout: "main",
+  extname: ".hbs",
+  layoutsDir: path.join(__dirname, "views", "layouts"), // Corrected path
+  partialsDir: path.join(__dirname, "views", "partials"),
+});
+app.engine(".hbs", handlebars.engine);
+app.set("view engine", ".hbs");
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
