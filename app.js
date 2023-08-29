@@ -6,6 +6,11 @@ const db = require("./models"); // Adjust the path to your models folder
 const userRoutes = require("./routes/userRoutes"); // Adjust the path to your userRoutes file
 const postRoutes = require("./routes/postRoutes"); // Adjust the path to your postRoutes file
 const commentRoutes = require("./routes/commentRoutes"); // Adjust the path to your commentRoutes file
+const Handlebars = require("handlebars");
+const handlebarsLayouts = require("handlebars-layouts");
+
+Handlebars.registerHelper(handlebarsLayouts(Handlebars));
+
 require("dotenv").config();
 
 const app = express();
