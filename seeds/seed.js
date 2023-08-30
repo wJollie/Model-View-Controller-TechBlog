@@ -2,7 +2,7 @@ const sequelize = require("../config/connection");
 const { User, Post, Comment } = require("../models");
 
 (async () => {
-  await sequelize.sync({ force: true }); // Drop existing tables and recreate them
+  await sequelize.sync({ force: true });
 
   try {
     const users = await User.bulkCreate([
@@ -14,7 +14,6 @@ const { User, Post, Comment } = require("../models");
         username: "user2",
         password: "password2",
       },
-      // Add more users as needed
     ]);
 
     const posts = await Post.bulkCreate([
@@ -28,7 +27,6 @@ const { User, Post, Comment } = require("../models");
         content: "Content of post 2",
         user_id: users[1].id,
       },
-      // Add more posts as needed
     ]);
 
     await Comment.bulkCreate([
@@ -42,7 +40,6 @@ const { User, Post, Comment } = require("../models");
         user_id: users[1].id,
         post_id: posts[0].id,
       },
-      // Add more comments as needed
     ]);
 
     console.log("Seeding complete!");

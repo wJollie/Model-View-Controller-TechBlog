@@ -19,7 +19,7 @@ html {
     margin: 0;
     font-family: sans-serif;
     color: #333;
-    background-color: var(--secondary-bg-color); /* Light Blue Background */
+    background-color: var(--secondary-bg-color); 
 }
 
 a,
@@ -69,7 +69,7 @@ input {
     padding: .5%;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background-color: var(--main-bg-color); /* White Background */
+    background-color: var(--main-bg-color); 
 }
 
 textarea:focus,
@@ -111,7 +111,7 @@ header,
 .info-section,
 .form-heading {
     background-color: var(--third-bg-color);
-    color: var(--main-bg-color); /* White Text Color */
+    color: var(--main-bg-color); 
 }
 
 .login-page,
@@ -165,7 +165,7 @@ header h1 {
 main {
     flex: 1;
     padding: 2% 4%;
-    background-color: white; /* White Background */
+    background-color: white; 
 }
 
 .btn-no-style {
@@ -196,7 +196,7 @@ main {
     margin-bottom: 2%;
     line-height: 150%;
     border: 3px solid black;
-    background-color: white; /* White Background */
+    background-color: white; 
 }
 
 .post .title span {
@@ -218,7 +218,7 @@ main {
 .comment {
     padding: 1%;
     margin-bottom: 1%;
-    background-color: #f0f0f0; /* Light Gray Background */
+    background-color: #f0f0f0; 
 }
 
 .comment .meta {
