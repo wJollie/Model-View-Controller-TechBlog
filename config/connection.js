@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 require("dotenv").config();
-const databaseUrl = process.env.DB_URL;
+const databaseUrl = process.env.CLEARDB_DATABASE_URL;
 const url = require("url");
 const parsedUrl = url.parse(databaseUrl);
 const dbName = parsedUrl.pathname.replace(/^\//, ""); // Extract the database name from the path
