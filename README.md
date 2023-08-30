@@ -3,6 +3,9 @@
 ## Description
 This is a project for the Upenn coding bootcamp, It is a blog post website where users can create an account make posts and comment on others posts. Syntax help from Chatgpt and Google, Outline and some help from github user: OwaisIslam
 
+## Deployed Application
+https://mvctproject-70e4d72174d9.herokuapp.com
+
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
