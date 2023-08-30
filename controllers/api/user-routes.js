@@ -75,29 +75,44 @@ router.post("/", (req, res) => {
     });
 });
 
-router.post("/login", (req, res) => {
-  User.findOne({
-    where: {
-      username: req.body.username,
-    },
-  }).then((dbUserData) => {
+router.post("/login", async (req, res) => {
+  try {
+    const dbUserData = await User.findOne({
+      where: {
+        username: req.body.username,
+      },
+    });
+
     if (!dbUserData) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "No user with that username!",
       });
-      return;
     }
 
-    req.session.save(() => {
-      req.session.user_id = dbUserData.id;
-      req.session.username = dbUserData.username;
-      req.session.loggedIn = true;
+    const validPassword = dbUserData.checkPassword(req.body.password);
 
+    if (!validPassword) {
+      return res.status(400).json({
+        message: "Incorrect password!",
+      });
+    }
+
+    req.session.user_id = dbUserData.id;
+    req.session.username = dbUserData.username;
+    req.session.loggedIn = true;
+
+    req.session.save(() => {
       res.json({
         user: dbUserData,
         message: "You are now logged in!",
       });
     });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 
     const validPassword = dbUserData.checkPassword(req.body.password);
 
